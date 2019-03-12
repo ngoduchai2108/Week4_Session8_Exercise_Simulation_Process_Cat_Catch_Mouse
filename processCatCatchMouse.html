@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulation Process Cat Catch Mouse</title>
+</head>
+<body>
+<h1>Simulation Process Cat Catch Mouse</h1>
+<button onclick="catId.innerHTML += 'Name : '+ cat.getName()">Cat</button>
+<button onclick="catId.innerHTML += 'Weight : '+ cat.getWeight()">Weight</button>
+<button onclick="catId.innerHTML += 'Speed Max : '+ cat.getSpeedMax()">Speed Max</button>
+<button onclick="catId.innerHTML += 'First Speed : '+ cat.showSpeed()">Speed</button>
+<button onclick="cat.catSounding()">CatSounding</button>
+<button onclick="cat.catchRat()">Catch Rat</button>
+<button onclick="cat.eatRat()">Eat Rat</button>
+<p id="catInfo"></p>
+<br/><br/><br/><br/><br/>
+<button onclick="ratId.innerHTML += 'Name : '+ rat.getName()">Rat</button>
+<button onclick="ratId.innerHTML += 'Weight : '+ rat.getWeight()">Weight</button>
+<button onclick="catId.innerHTML += 'Speed Max : '+ rat.getSpeedMax()">Speed Max</button>
+<button onclick="ratId.innerHTML += 'First Speed : '+ rat.showSpeed()">Speed</button>
+<button onclick="ratId.innerHTML += 'Status : '+ rat.getStatus() ">Status</button>
+<button onclick="rat.ratSounding()">RatSounding</button>
+<p id="ratInfo"></p>
+<script>
+    let Rat = function (name, weight, speedMax) {
+        this.name = name;
+        this.weight = weight;
+        this.speedMax = speedMax;
+        this.speed = 0;
+        this.status = "Live";
+        this.showSpeed = function () {
+            return this.speed + '<br/>';
+        };
+        this.getName = function () {
+            return this.name + '<br/>';
+        };
+        this.getWeight = function () {
+            return this.weight + '<br/>';
+        };
+        this.getSpeedMax = function () {
+            return this.speedMax + '<br/>';
+        };
+        this.getStatus = function () {
+            return this.status + '<br/>';
+        };
+        this.ratSounding = function () {
+            return alert('chit,chit,chit...!!!');
+        }
+    };
+    let Cat = function (name, weight, speedMax) {
+        this.name = name;
+        this.weight = weight;
+        this.speedMax = speedMax;
+        this.speed = 0;
+        this.showSpeed = function () {
+            return this.speed + '<br/>';
+        };
+        this.getName = function () {
+            return this.name + '<br/>';
+        };
+        this.getWeight = function () {
+            return this.weight + '<br/>';
+        };
+        this.getSpeedMax = function () {
+            return this.speedMax + '<br/>';
+        };
+        this.setRat = function (rat) {
+            this.rat = rat;
+        };
+        // this.getRat = function () {
+        //     return this.rat;
+        // };
+
+        this.catchRat = function () {
+            this.speed = Math.floor(Math.random() * (this.getSpeedMax - 5)) + 5;
+            this.rat.speed = Math.floor(Math.random() * (this.rat.getSpeedMax() - 4)) + 4;
+            catId.innerHTML += 'Last Speed: ' + this.speed + '<br/>';
+            ratId.innerHTML += 'Last Speed: ' + this.rat.speed + '<br/>';
+            if (this.speed >= 2 * this.rat.speed) {
+                alert('Jerry was caught !!!');
+                this.rat.status = "Caught";
+                ratId.innerHTML += 'Status: ' + this.rat.getStatus();
+            } else {
+                alert('Jerry was ran away !!! ');
+                this.rat.status = "Ran";
+                ratId.innerHTML += 'Status: ' + this.rat.getStatus();
+            }
+
+        };
+        this.eatRat = function () {
+            if (this.rat.status === "Caught") {
+                this.weight += this.rat.getWeight() - 2;
+                this.rat.status = "Death";
+                catId.innerHTML += 'Weight: ' + this.getWeight();
+                ratId.innerHTML += 'Status: ' + this.rat.getStatus();
+            } else {
+                alert('Not Rat!!!')
+            }
+        };
+        this.catSounding = function () {
+            return alert('meo,meo,meo...!!!')
+        };
+    };
+
+    let rat = new Rat("Jerry", 4, 5);
+    let cat = new Cat("Tom", 15, 20);
+    cat.setRat(rat);
+    let catId = document.getElementById('catInfo');
+    catId.innerHTML = "";
+    let ratId = document.getElementById('ratInfo');
+    ratId.innerHTML = "";
+
+</script>
+</body>
+</html>
